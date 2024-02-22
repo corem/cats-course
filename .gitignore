@@ -7,6 +7,9 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
+.idea/
+/.idea/
+/.idea/modules/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
@@ -147,4 +150,3 @@ project/plugins/project/
 ### Scala ###
 
 # End of https://www.toptal.com/developers/gitignore/api/scala,intellij,java,sbt
-/.idea/
