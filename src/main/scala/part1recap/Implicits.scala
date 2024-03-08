@@ -45,5 +45,20 @@ object Implicits {
   }
   val personJson = listToJSon(List(Person("Alice"), Person("Bob")))
 
-  def main(args: Array[String]): Unit = {}
+  implicit def oneArgCaseClassSerializer[T <: Product]: JSONSerializer[T] = new JSONSerializer[T] {
+    override def toJson(value: T): String =
+      s"""
+         |"${value.productElementName(0)}" : "${value.productElement(0)}"
+         |""".stripMargin
+  }
+
+  case class Cat(name: String)
+  val catsToJson = listToJSon(List(Cat("Tom"), Cat("Garfield")))
+
+
+
+  def main(args: Array[String]): Unit = {
+    println(oneArgCaseClassSerializer[Cat].toJson(Cat("Garfield")))
+    println(oneArgCaseClassSerializer[Person].toJson(Person("David")))
+  }
 }
