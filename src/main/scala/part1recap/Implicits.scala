@@ -28,5 +28,22 @@ object Implicits {
   def multiply(x: Int)(implicit times: Int) = x * times
   val times2 = multiply(2)
 
+  // More complex example
+  trait JSONSerializer[T] {
+    def toJson(value: T): String
+  }
+
+  def listToJSon[T](list: List[T])(implicit JSONSerializer: JSONSerializer[T]): String = {
+    list.map(value => JSONSerializer.toJson(value)).mkString("[", ",", "]")
+  }
+
+  implicit val personSerializer: JSONSerializer[Person] = new JSONSerializer[Person] {
+    override def toJson(person: Person): String =
+      s"""
+         |{"name" : "${person.name}"}
+      |""".stripMargin
+  }
+  val personJson = listToJSon(List(Person("Alice"), Person("Bob")))
+
   def main(args: Array[String]): Unit = {}
 }
